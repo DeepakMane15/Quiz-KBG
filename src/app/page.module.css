@@ -76,9 +76,11 @@
 .glowOnHover:hover:before {
   opacity: 1;
 }
+
 .glowOnHover:active:after {
   background: transparent;
 }
+
 .glowOnHover:after {
   z-index: -1;
   content: '';
@@ -92,9 +94,17 @@
 }
 
 @keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
 }
 
 .form {
@@ -121,19 +131,22 @@
 }
 
 .input {
-    border: none;
-    border-bottom: 1px solid gray;
-    margin-left: 20px;
-    height: 30px;
-    padding: 10px;
-    transition: border-color 0.3s ease;
-    font-size: 16px;
+  border: none;
+  border-bottom: 1px solid gray;
+  /* margin-left: 20px; */
+  height: 30px;
+  padding: 10px;
+  transition: border-color 0.3s ease;
+  font-size: 16px;
+  width: 220px;
 }
 
 
 .input:focus {
-  border-bottom: 1px solid blue; /* Change this to your desired color */
-  outline: none; /* Remove the default outline */
+  border-bottom: 1px solid blue;
+  /* Change this to your desired color */
+  outline: none;
+  /* Remove the default outline */
 }
 
 .input:focus-visible {
@@ -147,15 +160,50 @@
   animation: fade 1s linear;
 }
 
+.tableContainer {
+  padding: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes flip {
+  0% {
+    transform: perspective(400px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(180deg);
+  }
+}
+
+@keyframes flipBack {
+  0% {
+    transform: perspective(400px) rotateY(180deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(360deg);
+  }
+}
+
+.flip {
+  animation: flipBack 0.6s forwards;
+}
+
+.flipBack {
+  animation: flipBack 0.6s forwards;
+}
+
 @keyframes fade {
   0% {
     opacity: 0;
     transform: scale(0.5);
   }
+
   50% {
     opacity: 1;
     transform: scale(1);
   }
+
   100% {
     opacity: 0;
     transform: scale(1.5);
@@ -222,6 +270,7 @@
 .active {
   background-color: #70c070;
 }
+
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
@@ -296,6 +345,7 @@
 .logo {
   position: relative;
 }
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
@@ -367,11 +417,9 @@
     border-radius: 0;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
+    background: linear-gradient(to bottom,
+        rgba(var(--background-start-rgb), 1),
+        rgba(var(--callout-rgb), 0.5));
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
@@ -382,11 +430,9 @@
     inset: auto 0 0;
     padding: 2rem;
     height: 200px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgb(var(--background-end-rgb)) 40%
-    );
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgb(var(--background-end-rgb)) 40%);
     z-index: 1;
   }
 }
@@ -412,6 +458,7 @@
   from {
     transform: rotate(360deg);
   }
+
   to {
     transform: rotate(0deg);
   }

@@ -34,14 +34,21 @@ export default function Home() {
 
   const endQuiz = () => {
     setQuizStatus(QuizStatus.ENDED);
+    setCounter(-1);
   }
   const handleUserName = (name:string) => {
     let user: UserDataModel = {
       name: name,
-      score: 0
+      score: 0,
+      quizStatus: QuizStatus.STARTED
     };
     // alert(name);
     setUserData(user);
+    saveUserData(user);
+  }
+
+  const saveUserData = (user: UserDataModel) => {
+    sessionStorage.setItem("userData",JSON.stringify(user));
   }
   return (
     <>

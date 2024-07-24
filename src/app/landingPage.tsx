@@ -1,12 +1,23 @@
 "use client";
-import exp from "constants";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import { useState } from "react";
+import { UserDataModel } from "./common/UserModel";
+
 type LandingPageProps = {
   submit: (name: string) => void;
 };
+
 const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
-  const [name,setName] = useState("");
+  const [name, setName] = useState("");
+  const [viewScore, setViewScore] = useState(false); // Initialize to false to show form first
+  const [flipClass, setFlipClass] = useState("");
+  const [scoreCards, setScoreCards] = useState<UserDataModel[]>([]);
+
+  useEffect(() => {
+    if (viewScore) {
+      getScoreCards();
+    }
+  }, [viewScore]);
 
   const handleStart = () => {
     if (name.trim()) {
@@ -16,23 +27,98 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
       alert("Please enter a name.");
     }
   };
+
+  const getScoreCardLength = () => {
+    return sessionStorage.getItem("scoreCard");
+  };
+
+  const handleViewScore = () => {
+    setFlipClass(styles.flip);
+    setViewScore(true);
+    setTimeout(() => {
+      setFlipClass("");
+    }, 600); // Duration of the flip animation
+  };
+
+  const handleGoBack = () => {
+    setFlipClass(styles.flipBack);
+    setViewScore(false);
+    setTimeout(() => {
+      setFlipClass("");
+    }, 600); // Duration of the flipBack animation
+  };
+
+  const getScoreCards = () => {
+    setScoreCards(JSON.parse(sessionStorage.getItem("scoreCard") || "[]"));
+  };
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <div className={styles.title}>
-          Quiz App
+      {!viewScore ? (
+        <>
+          <div className={styles.description}>
+            <div className={styles.title}>KAUN BANEGA GURUSIKH</div>
+          </div>
+          <div className={`${styles.form} ${flipClass}`}>
+            <form className={styles.content}>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </form>
+            <div>
+              <button
+                disabled={name === ""}
+                className={styles.glowOnHover}
+                type="button"
+                onClick={handleStart}
+              >
+                START
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className={`${styles.tableContainer} ${flipClass}`}>
+          <table>
+            <thead>
+              <tr>
+                <th>Sr</th>
+                <th>Name</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scoreCards.map((data: UserDataModel, index: number) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{data.name}</td>
+                  <td>{data.score * 10}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
-      <div className={styles.form}>
-        <form className={styles.content}>
-          <label className={styles.label} >Name</label>
-          <input className={styles.input} type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
-        </form>
+      )}
+
+      {getScoreCardLength() && !viewScore ? (
         <div>
-          <button className={styles.glowOnHover} type="button" onClick={handleStart}>START</button>
+          <button className={`btn-hover color-1 ${flipClass}`} onClick={handleViewScore}>
+            View Score Card
+          </button>
         </div>
-      </div>
+      ) : getScoreCardLength() && viewScore ? (
+        <div>
+          <button className={`btn-hover color-1 ${flipClass}`} onClick={handleGoBack}>
+            Go Back
+          </button>
+        </div>
+      ) : null}
     </main>
-  )
-}
+  );
+};
+
 export default LandingPage;
