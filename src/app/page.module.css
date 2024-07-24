@@ -1,21 +1,23 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 6rem;
-  min-height: 100vh;
+  height: 100%;
+  row-gap: 55px;
 }
 
 .description {
-  display: inherit;
-  justify-content: inherit;
-  align-items: inherit;
-  font-size: 0.85rem;
   max-width: var(--max-width);
   width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
 }
 
 .description a {
@@ -26,14 +28,200 @@
 }
 
 .description p {
-  position: relative;
-  margin: 0;
-  padding: 1rem;
   background-color: rgba(var(--callout-rgb), 0.5);
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
 }
 
+.title {
+  font-size: 26px;
+}
+
+.glowOnHover {
+  text-transform: capitalize;
+  font-size: 16px;
+  width: 220px;
+  height: 50px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.glowOnHover:before {
+  content: '';
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.glowOnHover:active {
+  color: #000;
+}
+
+.glowOnHover:hover:before {
+  opacity: 1;
+}
+.glowOnHover:active:after {
+  background: transparent;
+}
+.glowOnHover:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+.form {
+  border: 1px solid #002031;
+  padding: 24px;
+  border-radius: 9px;
+  background-color: #042131;
+  width: 365px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 200px;
+}
+
+.label {
+  font-size: 18px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.input {
+    border: none;
+    border-bottom: 1px solid gray;
+    margin-left: 20px;
+    height: 30px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+    font-size: 16px;
+}
+
+
+.input:focus {
+  border-bottom: 1px solid blue; /* Change this to your desired color */
+  outline: none; /* Remove the default outline */
+}
+
+.input:focus-visible {
+  border-color: #002bff !important;
+
+}
+
+.counter {
+  font-size: 15rem;
+  font-weight: bold;
+  animation: fade 1s linear;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.toolbar {
+  background-color: #095680;
+  width: 100%;
+  position: relative;
+  top: 0;
+  padding: 16px 13%;
+  border-bottom: 1px solid #02214e;
+  display: flex;
+  justify-content: space-between;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.questionContainer {
+  margin: 24px 24px;
+  height: 82%;
+  padding: 34px;
+  background-color: #6e7d8f;
+  border-radius: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* row-gap: 30px; */
+}
+
+.question {
+  display: flex;
+  gap: 20px;
+  font-size: 18px;
+  /* justify-content: space-between; */
+}
+
+.optionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  gap: 24px;
+}
+
+.option {
+  background-color: #c4c9ce;
+  padding: 24px;
+  color: #0e0e71;
+  font-size: 18px;
+  border-radius: 6px;
+  height: 200px;
+  width: 100%;
+  font-weight: 600;
+  border: 1px solid #5f666e;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #70c070;
+}
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
