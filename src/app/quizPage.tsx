@@ -3,7 +3,7 @@ import exp from "constants";
 import styles from "./page.module.css";
 import { UserDataModel } from "./common/UserModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faStar  } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { QuestionModel } from "./common/QuestionModel";
 import { AnswerStatus, CorrectMessage, InCorrectMessage, QuizStatus } from "./common/AppEnum";
@@ -33,6 +33,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   const [questionTransition, setQuestionTransition] = useState<'fadeIn' | 'fadeOut'>('fadeIn');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const [randomImage, setRandomImage] = useState<string>("");
+  const [isWon, setIsWon] = useState<boolean>(false);
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -133,6 +134,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           // setTimer(30);
         } else {
           saveScoreCard();
+          setIsWon(true);
           Swal.fire({
             icon: "success",
             title: "Winner!",
@@ -189,6 +191,8 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   }
 
   const calculateProgressWidth = () => {
+    if (isWon)
+      return 100;
     return (currentQuestionIndex / questions.length) * 100;
   }
 
@@ -218,9 +222,12 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           </div>
         </div> */}
         <div className={styles.progressBarContainer}>
-          <FontAwesomeIcon icon={faStar} className={styles.starIcon} />
           <div className={styles.progressBar}>
-            <div className={styles.progress} style={{ width: `${calculateProgressWidth()}%` }}></div>
+            <div className={styles.progress} style={{ width: `${calculateProgressWidth()}%` }}>
+              <div className={styles.starIconContainer} style={{ left: `calc(${calculateProgressWidth()}% - ${!isWon ? (currentQuestionIndex === 0 ? '1.5px' : '18.5px') : '29.5px'})` }}>
+                <FontAwesomeIcon icon={faStar} className={styles.starIcon} />
+              </div>
+            </div>
           </div>
         </div>
       </div>

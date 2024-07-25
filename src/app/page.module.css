@@ -181,9 +181,11 @@
   align-items: center;
   gap: 4px;
 }
+
 .userImage {
   border-radius: 35px;
 }
+
 .actionContainer {
   display: flex;
   flex-direction: column;
@@ -209,80 +211,37 @@
   font-size: 18px;
 }
 
-@keyframes moveToCenterFromLeft {
-  0% {
-    transform: translate(-50%, 100%);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-}
-
-@keyframes moveToCenterFromRight {
-  0% {
-    transform: translate(50%, 100%);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-}
-
-.animationContainerLeft, .animationContainerRight {
-  position: fixed;
-  bottom: 0;
-  width: 50%;
-  height: 50%;
-  z-index: 1000;
-}
-
-.animationContainerLeft {
-  left: 0;
-  animation: moveToCenterFromLeft 2s forwards;
-}
-
-.animationContainerRight {
-  right: 0;
-  animation: moveToCenterFromRight 2s forwards;
-}
-
-
-.content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 /* Add these styles to your existing CSS file (page.module.css) */
 
 .progressBarContainer {
+  position: relative;
   display: flex;
   align-items: center;
   margin-top: 20px;
 }
 
-.starIcon {
-  position: relative;
-  color: gold;
-  font-size: 25px;
-  left: 17px;
-}
 .progressBar {
   flex-grow: 1;
-  height: 20px;
+  height: 27px;
   background-color: #e0e0e0;
-  border-radius: 10px;
-  width: 200px;
+  border-radius: 20px;
   overflow: hidden;
+  position: relative;
+  width: 200px;
+}
+
+.starIconContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  transition: left 0.5s ease-in-out;
+  /* Smooth transition */
+}
+
+.starIcon {
+  color: gold;
+  font-size: 25px;
 }
 
 .progress {
@@ -293,6 +252,12 @@
   transition: width 0.5s ease-in-out;
 }
 
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 .input {
   border: none;
