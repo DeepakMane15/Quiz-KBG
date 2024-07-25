@@ -35,7 +35,42 @@
 
 .title {
   font-size: 26px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 8px;
 }
+
+.logoKbg {
+  border-radius: 50%;
+}
+
+.animationContainer {
+  position: fixed;
+  /* Position the animation relative to the viewport */
+  top: 50%;
+  /* Center vertically */
+  left: 50%;
+  /* Center horizontally */
+  transform: translate(-50%, -50%);
+  /* Adjust for the animation's dimensions */
+  z-index: 1000;
+  /* Ensure the animation appears above other content */
+  width: 300px;
+  /* Set a width for the animation */
+  height: 300px;
+  /* Set a height for the animation */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  /* Optional: Add a semi-transparent background */
+  border-radius: 10px;
+  /* Optional: Add rounded corners */
+  padding: 20px;
+  /* Optional: Add some padding */
+}
+
 
 .glowOnHover {
   text-transform: capitalize;
@@ -161,16 +196,43 @@
 }
 
 .tableContainer {
-  padding: 24px;
+  /* padding: 24px; */
   width: 100%;
-  display: flex;
   justify-content: center;
+  height: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar styles */
+.tableContainer::-webkit-scrollbar {
+  width: 12px;
+  /* Width of the scrollbar */
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: #c2b9b9;
+  /* Color of the track */
+  border-radius: 10px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  /* Color of the thumb */
+  border-radius: 10px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  /* Color of the thumb on hover */
 }
 
 @keyframes flip {
   0% {
     transform: perspective(400px) rotateY(0deg);
   }
+
   100% {
     transform: perspective(400px) rotateY(180deg);
   }
@@ -180,6 +242,7 @@
   0% {
     transform: perspective(400px) rotateY(180deg);
   }
+
   100% {
     transform: perspective(400px) rotateY(360deg);
   }
@@ -270,6 +333,63 @@
 .active {
   background-color: #70c070;
 }
+
+
+.bottomContainer {
+  /* background-color: #2c92c9; */
+  width: 100%;
+  bottom: 0;
+  height: 60px;
+  position: absolute;
+  border-radius: 46px 46px 0 0;
+  padding: 16px 34px;
+}
+
+.bottomDiv {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.incorrect {
+  background-color: #e63910;
+}
+.correct {
+  background-color: #39ae2a;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.fadeInOut {
+  animation: fadeInOut 5s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.fadeOut {
+  animation: fadeOut 0.5s ease-in;
+}
+
 
 .code {
   font-weight: 700;

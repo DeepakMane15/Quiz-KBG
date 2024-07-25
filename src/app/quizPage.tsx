@@ -6,17 +6,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { QuestionModel } from "./common/QuestionModel";
-import { QuizStatus } from "./common/AppEnum";
+import { AnswerStatus, CorrectMessage, InCorrectMessage, QuizStatus } from "./common/AppEnum";
+import Lottie from 'lottie-react';
+import correctAnimation from '../../public/well_done_animation1.json.json'; // Path to your animation 
+import inCorrectAnimation from '../../public/incorrect_animation.json.json'; // Path to your animation
+
 
 type QuizPageProps = {
   submit: () => void;
   user: UserDataModel
 };
 const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
-  const [selectedOption, setSelectedOption] = useState(-1);
+  const [selectedOption, setSelectedOption] = useState<number>(-1);
   const [questions, setQuestions] = useState<QuestionModel[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [timer, setTimer] = useState(3);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [timer, setTimer] = useState<number>(30);
+  const [showAnimation, setShowAnimation] = useState<boolean>(false);
+  const [showIncAnimation, setShowIncAnimation] = useState<boolean>(false);
+  const [answerStatus, setAnswerStatus] = useState<AnswerStatus>(AnswerStatus.NONE);
+  const [footerMessage, setFooterMessage] = useState<string>("");
+  const [showFooterMessage, setShowFooterMessage] = useState<boolean>(false);
+  const [questionTransition, setQuestionTransition] = useState<'fadeIn' | 'fadeOut'>('fadeIn');
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -45,13 +55,61 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
     }
   }, [timer]);
 
+  useEffect(() => {
+    if (answerStatus !== AnswerStatus.NONE) {
+      setFooterMessage(getFooterMessage());
+      setShowFooterMessage(true);
+      const timer = setTimeout(() => {
+        setShowFooterMessage(false);
+      }, 3000); // Hide after 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [answerStatus]);
+
+  useEffect(() => {
+    if (currentQuestionIndex > 0) {
+      setQuestionTransition('fadeOut');
+      const timer = setTimeout(() => {
+        setQuestionTransition('fadeIn');
+      }, 500); // Match this duration with the CSS animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [currentQuestionIndex]);
+
+  const getFooterMessage = (): string => {
+    let messages = answerStatus === AnswerStatus.CORRECT ? CorrectMessage : InCorrectMessage;
+    let randomIndex = Math.floor(Math.random() * 3);
+    return messages[randomIndex];
+  }
+
   const handleOptionSelection = (index: number) => {
     setSelectedOption(index);
     if (index === questions[currentQuestionIndex].answer) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      user.score += 1;
+      setShowAnimation(true);
+      setAnswerStatus(AnswerStatus.CORRECT);
+      setTimeout(() => {
+        setShowAnimation(false);
+        user.score += 1;
+        setSelectedOption(-1)
+        if (currentQuestionIndex !== questions.length - 1) {
+          setTimeout(() => {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+            setTimer(30);
+          }, 500);
+          setTimer(30);
+        } else {
+          setQuestionTransition('fadeOut');
+          submit();
+        }
+      }, 2500)
     } else {
-      user.quizStatus = QuizStatus.ENDED
+      setAnswerStatus(AnswerStatus.INCORRECT);
+      setShowIncAnimation(true);
+      setTimeout(() => {
+        setShowIncAnimation(false);
+        user.quizStatus = QuizStatus.ENDED
+        submit();
+      }, 2500)
       saveScoreCard();
     }
     saveUserData();
@@ -90,7 +148,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
         </div>
       </div>
 
-      <div className={styles.questionContainer}>
+      <div className={`${styles.questionContainer} ${styles[questionTransition]}`}>
         {questions[currentQuestionIndex] && (
           <>
             <div className={styles.question}>
@@ -111,6 +169,18 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           </>
         )}
       </div>
+      {(showAnimation || showIncAnimation) && (
+        <div className={styles.animationContainer}>
+          <Lottie animationData={showAnimation ? correctAnimation : inCorrectAnimation} loop={false} />
+        </div>
+      )}
+      {answerStatus !== AnswerStatus.NONE && showFooterMessage && (
+        <div className={`${styles.bottomContainer} ${answerStatus === AnswerStatus.CORRECT ? styles.correct : styles.incorrect} ${styles.fadeInOut}`}>
+          <div className={`${styles.bottomDiv}`}>
+            {footerMessage}
+          </div>
+        </div>
+      )}
     </>
   )
 }

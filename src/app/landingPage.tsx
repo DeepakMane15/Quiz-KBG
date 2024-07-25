@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { UserDataModel } from "./common/UserModel";
+import Image from 'next/image';
+
 
 type LandingPageProps = {
   submit: (name: string) => void;
@@ -51,13 +53,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
   const getScoreCards = () => {
     setScoreCards(JSON.parse(sessionStorage.getItem("scoreCard") || "[]"));
   };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleStart();
+    }
+  };
 
   return (
     <main className={styles.main}>
       {!viewScore ? (
         <>
           <div className={styles.description}>
-            <div className={styles.title}>KAUN BANEGA GURUSIKH</div>
+            <div className={styles.title}>
+              <Image className={styles.logoKbg} src="/logo_kbg.jpeg" alt="kaun banega gurusikh" width={50} height={50} />
+              <span>KAUN BANEGA GURUSIKH</span></div>
           </div>
           <div className={`${styles.form} ${flipClass}`}>
             <form className={styles.content}>
@@ -67,6 +76,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
             </form>
             <div>

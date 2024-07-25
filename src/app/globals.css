@@ -143,8 +143,9 @@ table {
   background: #012B39;
   border-radius: 0.25em;
   border-collapse: collapse;
-  margin: 1em;
-  width: 85%;
+  width: 100%;
+  overflow: hidden;
+  height: 20px;
 }
 th {
   border-bottom: 1px solid #364043;
