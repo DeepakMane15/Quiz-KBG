@@ -10,8 +10,10 @@ import { UserDataModel } from "./common/UserModel";
 
 export default function Home() {
   const [counter, setCounter] = useState<number>(-1);
-  const [quizStatus, setQuizStatus] = useState<QuizStatus>(QuizStatus.NOT_STARTED);
-  const [userData, setUserData] = useState<UserDataModel>(new UserDataModel())
+  const [quizStatus, setQuizStatus] = useState<QuizStatus>(
+    QuizStatus.NOT_STARTED
+  );
+  const [userData, setUserData] = useState<UserDataModel>(new UserDataModel());
 
   useEffect(() => {
     if (counter > -1)
@@ -19,9 +21,10 @@ export default function Home() {
         const timer = setTimeout(() => {
           setCounter(counter - 1);
         }, 1000);
-        return () => { clearTimeout(timer); } // Clean up the timeout
-      }
-      else {
+        return () => {
+          clearTimeout(timer);
+        }; // Clean up the timeout
+      } else {
         setQuizStatus(QuizStatus.STARTED);
         let user = userData;
         user.quizStatus = QuizStatus.STARTED;
@@ -31,19 +34,22 @@ export default function Home() {
   }, [counter]);
 
   useEffect(() => {
-    let activeUser = sessionStorage.getItem('userData');
+    let activeUser = sessionStorage.getItem("userData");
     if (activeUser) {
       let activeUserArray: UserDataModel = JSON.parse(activeUser);
 
-      if (activeUserArray && activeUserArray.quizStatus === QuizStatus.STARTED) {
+      if (
+        activeUserArray &&
+        activeUserArray.quizStatus === QuizStatus.STARTED
+      ) {
         setUserData(activeUserArray);
         setCounter(0);
-        setQuizStatus(QuizStatus.STARTED)
+        setQuizStatus(QuizStatus.STARTED);
       } else {
-        setQuizStatus(QuizStatus.NOT_STARTED)
+        setQuizStatus(QuizStatus.NOT_STARTED);
       }
     }
-  })
+  });
 
   const handleSubmit = (name: string) => {
     setCounter(3);
@@ -55,40 +61,37 @@ export default function Home() {
   const endQuiz = () => {
     setQuizStatus(QuizStatus.NOT_STARTED);
     setCounter(-1);
-    sessionStorage.removeItem('userData');
-  }
+    sessionStorage.removeItem("userData");
+  };
   const handleUserName = (name: string) => {
     let user: UserDataModel = {
       name: name,
       score: 0,
-      quizStatus: QuizStatus.NOT_STARTED
+      quizStatus: QuizStatus.NOT_STARTED,
     };
     // alert(name);
     setUserData(user);
     saveUserData(user);
-  }
+  };
 
   const saveUserData = (user: UserDataModel) => {
     sessionStorage.setItem("userData", JSON.stringify(user));
-  }
+  };
   return (
     <>
       {counter === -1 ? (
         <LandingPage submit={handleSubmit} />
-      ) :
-        quizStatus === QuizStatus.NOT_STARTED ?
-          (
-            <main className={styles.main}>
-              <div key={counter} className={styles.counter}>
-                {counter}
-              </div>
-            </main>
-          ) :
-          (<>
-            <QuizPage submit={endQuiz} user={userData} />
-          </>
-          )
-      }
+      ) : quizStatus === QuizStatus.NOT_STARTED ? (
+        <main className={styles.main}>
+          <div key={counter} className={styles.counter}>
+            {counter}
+          </div>
+        </main>
+      ) : (
+        <>
+          <QuizPage submit={endQuiz} user={userData} />
+        </>
+      )}
     </>
   );
 }
