@@ -142,10 +142,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
       )}
       {getScoreCardLength() && viewScore ? (
         <div>
-          <button
-            className={`btn-hover color-1 ${flipClass}`}
-            onClick={handleGoBack}
-          >
+          <button className={styles.glowOnHover} onClick={handleGoBack}>
             Go Back
           </button>
         </div>

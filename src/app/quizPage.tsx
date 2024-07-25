@@ -82,8 +82,8 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
       saveScoreCard();
       Swal.fire({
         icon: "error",
-        title: "Better luck next time!",
-        text: "The quiz has ended.",
+        title: "Nice effort!",
+        text: "Your hard work is evident and appreciated.",
         allowOutsideClick: false,
       }).then((result) => {
         if (result.value) {
@@ -205,6 +205,14 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
     return (currentQuestionIndex / questions.length) * 100;
   };
 
+  const formatTimer = (timer: any) => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    return `${minutes < 10 ? `0${minutes}` : minutes}:${
+      seconds < 10 ? `0${seconds}` : seconds
+    }`;
+  };
+
   return (
     <>
       <div className={styles.toolbar}>
@@ -226,9 +234,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
             alt="timer"
             className={styles.timerIcon}
           />
-          <h1 className={styles.timerTxt}>{`00:${
-            timer < 10 ? `0${timer}` : timer
-          }`}</h1>
+          <h1 className={styles.timerTxt}>{`${formatTimer(timer)}`}</h1>
         </div>
 
         <div className={styles.progressContainer}>
@@ -262,7 +268,6 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
         {questions[currentQuestionIndex] && (
           <>
             <div className={styles.question}>
-              <div>Q{questions[currentQuestionIndex].id}.</div>
               <div>{questions[currentQuestionIndex].question}</div>
             </div>
             <div className={styles.optionContainer}>
