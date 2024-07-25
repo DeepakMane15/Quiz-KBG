@@ -3,14 +3,14 @@ import exp from "constants";
 import styles from "./page.module.css";
 import { UserDataModel } from "./common/UserModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faAward } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { QuestionModel } from "./common/QuestionModel";
 import { AnswerStatus, CorrectMessage, InCorrectMessage, QuizStatus } from "./common/AppEnum";
 import Lottie from 'lottie-react';
 import correctAnimation from '../../public/well_done_animation1.json.json'; // Path to your animation 
 import inCorrectAnimation from '../../public/incorrect_animation.json.json'; // Path to your animation
-
+import Swal from 'sweetalert2';
 
 type QuizPageProps = {
   submit: () => void;
@@ -20,7 +20,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   const [selectedOption, setSelectedOption] = useState<number>(-1);
   const [questions, setQuestions] = useState<QuestionModel[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(30);
+  const [timer, setTimer] = useState<number>(300);
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
   const [showIncAnimation, setShowIncAnimation] = useState<boolean>(false);
   const [answerStatus, setAnswerStatus] = useState<AnswerStatus>(AnswerStatus.NONE);
@@ -98,8 +98,18 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           }, 500);
           setTimer(30);
         } else {
-          setQuestionTransition('fadeOut');
-          submit();
+          Swal.fire({
+            icon: "success",
+            title: "Winner!",
+            text: "The quiz has ended.",
+          })
+            .then((result) => {
+              if (result.value) {
+                setQuestionTransition('fadeOut');
+                submit();
+              }
+            });
+          // submit();
         }
       }, 2500)
     } else {
@@ -108,7 +118,16 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
       setTimeout(() => {
         setShowIncAnimation(false);
         user.quizStatus = QuizStatus.ENDED
-        submit();
+        Swal.fire({
+          icon: "error",
+          title: "Better luck next time!",
+          text: "The quiz has ended.",
+        })
+          .then((result) => {
+            if (result.value) {
+              submit();
+            }
+          });
       }, 2500)
       saveScoreCard();
     }
@@ -136,6 +155,9 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           {user.name}
         </div>
         <div className={styles.timer}>
+          {/* <div >
+            Q. {currentQuestionIndex + 1}/{questions.length} |
+          </div> */}
           <FontAwesomeIcon
             icon={faClock}
             className="fas fa-check"
@@ -143,8 +165,12 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           />
           {`00:${timer < 10 ? `0${timer}` : timer}`}
         </div>
-        <div>
-          Q. {currentQuestionIndex + 1}/{questions.length}
+        <div className={styles.medal}>
+          <div className={`${styles.timer} ${styles.medalContent}`}>
+            <FontAwesomeIcon icon={faAward} className="fas fa-check"
+              style={{ color: "#e71414", fontSize: 25 }} />
+            <div>1st</div>
+          </div>
         </div>
       </div>
 
