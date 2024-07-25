@@ -87,7 +87,8 @@ body {
   
   body {
     color: rgb(var(--foreground-rgb));
-    background: linear-gradient(to bottom, transparent, rgb(4 32 47)) rgb(6 11 47);
+    /* background: linear-gradient(to bottom, transparent, #15CDEC) #05AFEE; */
+    background: linear-gradient(to left, #05AFEE, #15CDEC, #56D3E6);
     height: 100vh;
 }
 
@@ -104,18 +105,20 @@ a {
 
 
 .btn-hover {
-  width: 200px;
+  /* width: 200px; */
+  width: 220px;
+    height: 42px;
   font-size: 15px;
   font-weight: 600;
   color: #fff;
   cursor: pointer;
   margin: 20px;
-  height: 50px;
+  /* height: 50px; */
   text-align:center;
   border: none;
   background-size: 300% 100%;
 
-  border-radius: 50px;
+  border-radius: 10px;
   moz-transition: all .4s ease-in-out;
   -o-transition: all .4s ease-in-out;
   -webkit-transition: all .4s ease-in-out;

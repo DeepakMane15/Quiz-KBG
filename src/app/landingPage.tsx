@@ -78,21 +78,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
         <>
           <div className={styles.description}>
             <div className={styles.title}>
-              <Image className={styles.logoKbg} src="/logo_kbg.jpeg" alt="kaun banega gurusikh" width={50} height={50} />
-              <span>KAUN BANEGA GURUSIKH</span></div>
+              <Image className={styles.logoKbg} src="/logo_kbg.jpeg" alt="kaun banega gurusikh" width={200} height={200} />
+              {/* <span>KAUN BANEGA GURUSIKH</span> */}
+            </div>
           </div>
           <div className={`${styles.form} ${flipClass}`}>
             <form className={styles.content}>
               <input
                 className={styles.input}
                 type="text"
-                placeholder="Enter name"
+                placeholder="Your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
             </form>
-            <div>
+            <div className={styles.actionContainer}>
               <button
                 disabled={name === ""}
                 className={styles.glowOnHover}
@@ -101,6 +102,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
               >
                 START
               </button>
+              {getScoreCardLength() && !viewScore ? (
+                <div>
+                  <button className={`btn-hover color-1 ${flipClass}`} onClick={handleViewScore}>
+                    View Score Card
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </>
@@ -126,14 +134,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
           </table>
         </div>
       )}
-
-      {getScoreCardLength() && !viewScore ? (
-        <div>
-          <button className={`btn-hover color-1 ${flipClass}`} onClick={handleViewScore}>
-            View Score Card
-          </button>
-        </div>
-      ) : getScoreCardLength() && viewScore ? (
+      {getScoreCardLength() && viewScore ? (
         <div>
           <button className={`btn-hover color-1 ${flipClass}`} onClick={handleGoBack}>
             Go Back
