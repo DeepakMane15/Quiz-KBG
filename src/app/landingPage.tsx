@@ -14,12 +14,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
   const [viewScore, setViewScore] = useState<boolean>(false); // Initialize to false to show form first
   const [flipClass, setFlipClass] = useState<string>("");
   const [scoreCards, setScoreCards] = useState<UserDataModel[]>([]);
+  const [scoreCardLength, setScoreCardLength] = useState<number | null>(null);
 
   useEffect(() => {
     if (viewScore) {
       getScoreCards();
     }
   }, [viewScore]);
+
+  useEffect(() => {
+    const getScoreCardLength = () => {
+      const scoreCard = sessionStorage.getItem("scoreCard");
+      return scoreCard ? JSON.parse(scoreCard).length : 0;
+    };
+
+    setScoreCardLength(getScoreCardLength());
+  }, []);
 
   const handleStart = () => {
     if (name.trim()) {

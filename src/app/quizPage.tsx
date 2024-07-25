@@ -20,7 +20,8 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   const [selectedOption, setSelectedOption] = useState<number>(-1);
   const [questions, setQuestions] = useState<QuestionModel[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(300);
+  const [timer, setTimer] = useState<number>(30);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
   const [showIncAnimation, setShowIncAnimation] = useState<boolean>(false);
   const [answerStatus, setAnswerStatus] = useState<AnswerStatus>(AnswerStatus.NONE);
@@ -52,11 +53,21 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
       const timerId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
+      setTimerId(timerId);
       return () => clearInterval(timerId);
     } else {
       user.quizStatus = QuizStatus.ENDED;
       saveScoreCard();
-      submit(); // End the quiz session on timeout
+      Swal.fire({
+        icon: "error",
+        title: "Better luck next time!",
+        text: "The quiz has ended.",
+      })
+        .then((result) => {
+          if (result.value) {
+            submit();
+          }
+        });
     }
   }, [timer]);
 
@@ -121,6 +132,9 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
     } else {
       setAnswerStatus(AnswerStatus.INCORRECT);
       setShowIncAnimation(true);
+      if (timerId) {
+        clearInterval(timerId);
+      }
       setTimeout(() => {
         setShowIncAnimation(false);
         user.quizStatus = QuizStatus.ENDED
