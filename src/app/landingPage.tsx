@@ -10,9 +10,9 @@ type LandingPageProps = {
 };
 
 const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
-  const [name, setName] = useState("");
-  const [viewScore, setViewScore] = useState(false); // Initialize to false to show form first
-  const [flipClass, setFlipClass] = useState("");
+  const [name, setName] = useState<string>("");
+  const [viewScore, setViewScore] = useState<boolean>(false); // Initialize to false to show form first
+  const [flipClass, setFlipClass] = useState<string>("");
   const [scoreCards, setScoreCards] = useState<UserDataModel[]>([]);
 
   useEffect(() => {
@@ -51,7 +51,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
   };
 
   const getScoreCards = () => {
-    setScoreCards(JSON.parse(sessionStorage.getItem("scoreCard") || "[]"));
+    let cards = JSON.parse(sessionStorage.getItem("scoreCard") || "[]");
+    cards.sort((a: UserDataModel, b: UserDataModel) => b.score - a.score);
+    setScoreCards(cards);
+
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

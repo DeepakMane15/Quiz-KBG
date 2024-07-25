@@ -33,7 +33,12 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
       try {
         const response = await fetch('/questions.json');
         const data = await response.json();
-        setQuestions(data);
+        let rank1Index = Math.floor(Math.random() * data.rank1.length);
+        let rank2Index = Math.floor(Math.random() * data.rank2.length);
+        let rank3Index = Math.floor(Math.random() * data.rank3.length);
+
+        let questionSet = [data.rank1[rank1Index], data.rank2[rank2Index], data.rank3[rank3Index]];
+        setQuestions(questionSet);
       } catch (error) {
         console.error('Error loading questions:', error);
       }
@@ -87,16 +92,17 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
     if (index === questions[currentQuestionIndex].answer) {
       setShowAnimation(true);
       setAnswerStatus(AnswerStatus.CORRECT);
+      user.score += 1;
+      saveScoreCard();
       setTimeout(() => {
         setShowAnimation(false);
-        user.score += 1;
         setSelectedOption(-1)
         if (currentQuestionIndex !== questions.length - 1) {
           setTimeout(() => {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setTimer(30);
           }, 500);
-          setTimer(30);
+          // setTimer(30);
         } else {
           Swal.fire({
             icon: "success",
@@ -118,6 +124,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
       setTimeout(() => {
         setShowIncAnimation(false);
         user.quizStatus = QuizStatus.ENDED
+        saveScoreCard();
         Swal.fire({
           icon: "error",
           title: "Better luck next time!",
@@ -129,7 +136,6 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
             }
           });
       }, 2500)
-      saveScoreCard();
     }
     saveUserData();
   }
@@ -185,7 +191,9 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
               {questions[currentQuestionIndex].options.map((option, index) => (
                 <div
                   key={index}
-                  className={`${styles.option} ${selectedOption === index ? styles.active : ''}`}
+                  className={`${styles.option} ${selectedOption === index && questions[currentQuestionIndex].answer === index ? styles.active :
+                    selectedOption === index && questions[currentQuestionIndex].answer !== index && styles.incorrectTile
+                    }`}
                   onClick={() => handleOptionSelection(index)}
                 >
                   {option}

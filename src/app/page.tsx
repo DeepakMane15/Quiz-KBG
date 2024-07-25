@@ -9,9 +9,9 @@ import QuizPage from "./quizPage";
 import { UserDataModel } from "./common/UserModel";
 
 export default function Home() {
-  const [counter, setCounter] = useState(-1);
-  const [quizStatus, setQuizStatus] = useState(QuizStatus.NOT_STARTED);
-  const [userData, setUserData] = useState(new UserDataModel())
+  const [counter, setCounter] = useState<number>(-1);
+  const [quizStatus, setQuizStatus] = useState<QuizStatus>(QuizStatus.NOT_STARTED);
+  const [userData, setUserData] = useState<UserDataModel>(new UserDataModel())
 
   useEffect(() => {
     if (counter > -1)

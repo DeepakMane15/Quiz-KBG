@@ -446,6 +446,12 @@
   font-weight: 600;
 }
 
+.incorrectTile {
+  background: #c72e2e;
+  color: #fff;
+  border: 1px solid #d3b8b8;
+}
+
 .card {
   padding: 1rem 1.2rem;
   border-radius: var(--border-radius);
