@@ -275,6 +275,7 @@
   color: #000;
   font-weight: 600;
   background: #fff;
+  box-shadow: 0 0 20px #e7d2d2;
 }
 
 .input::placeholder {
@@ -380,12 +381,11 @@
 }
 
 .toolbar {
-  background-color: #095680;
+  background-color: #4F1787;
   width: 100%;
   position: relative;
   top: 0;
   padding: 16px 13%;
-  border-bottom: 1px solid #02214e;
   display: flex;
   justify-content: space-between;
 }
@@ -396,11 +396,26 @@
   gap: 4px;
 }
 
+.timerTxt {
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.logoImage {
+  position: absolute;
+  top:13%;
+  z-index: -10;
+  align-self: center;
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
 .questionContainer {
   margin: 24px 24px;
   height: 82%;
   padding: 34px;
-  background-color: #6e7d8f;
+  background-color: transparent;
+  opacity: 0.9;
   border-radius: 35px;
   display: flex;
   flex-direction: column;
