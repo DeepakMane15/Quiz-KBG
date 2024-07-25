@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -111,6 +113,7 @@ a {
   width: 220px;
     height: 42px;
   font-size: 15px;
+  font-family:'Raleway';
   font-weight: 600;
   color: #fff;
   cursor: pointer;
@@ -146,18 +149,20 @@ a {
 
 .view-score{
   background: #FFFF;
-  box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+  box-shadow: #eee;
   border-radius: 10px;
-  color: #C48A25;
+  color: #180161;
   cursor: pointer;
   font-size: 15px;
+  font-family:'Raleway';
   font-weight: 600;
   height: 42px;
   margin: 20px;
   text-align: center;
   width: 220px;
   outline: none;
-  border:none;
+  border:none
+
 }
 
 table {
@@ -172,6 +177,7 @@ th {
   border-bottom: 1px solid #364043;
   color: #E2B842;
   font-size: 0.85em;
+  font-family:'Raleway';
   font-weight: 600;
   padding: 0.5em 1em;
   text-align: left;

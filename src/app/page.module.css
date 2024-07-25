@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 .main {
   display: flex;
   flex-direction: column;
@@ -35,6 +36,7 @@
 
 .title {
   font-size: 26px;
+  font-family:'Raleway';
   display: flex;
   /* justify-content: center; */
   align-items: center;
@@ -101,6 +103,7 @@
 
 .glowOnHover {
   font-size: 16px;
+  font-family:'Raleway';
   width: 220px;
   height: 42px;
   border: none;
@@ -109,7 +112,7 @@
   text-transform: uppercase;
   /* background: #111; */
   /* background: linear-gradient(to right, yellow, #C48A25); */
-  background-image: linear-gradient(to right, #F7971E 0%, #FFD200  51%, #F7971E  100%);
+  background-image: linear-gradient(to left , #4F1787 10%, #EB3678  51%, #180161  100%);
   background-size: 200% auto;
   transition: 0.5s;
   box-shadow: 0 0 20px #eee;
@@ -211,6 +214,7 @@
 
 .label {
   font-size: 18px;
+  font-family:'Raleway';
 }
 
 /* Add these styles to your existing CSS file (page.module.css) */
@@ -312,23 +316,20 @@
 }
 
 .input {
-  border: none;
-  outline: none;
-  border-bottom: 1px solid gray;
   height: 45px;
   padding: 10px 0 4px 12px;
-  transition: border-color 0.3s ease;
   font-size: 16px;
   width: 226px;
   border-radius: 9px;
-  color: #000;
+  color: #180161;
   font-weight: 600;
   background: #fff;
-  box-shadow: 0 0 20px #e7d2d2;
+  border:none;
+  outline: none;
 }
 
 .input::placeholder {
-  color: #8eb8d8;
+  color: #4F1787;
   /* Replace with your desired color */
 }
 
@@ -347,6 +348,7 @@
 
 .counter {
   font-size: 15rem;
+  font-family:'Raleway';
   font-weight: bold;
   animation: fade 1s linear;
 }
@@ -475,8 +477,13 @@
 .question {
   display: flex;
   gap: 20px;
-  font-size: 18px;
-  /* justify-content: space-between; */
+  font-size: 35px;
+  font-weight: 700;
+  font-family:'Raleway';
+  text-align: left;
+  align-items: center ;
+  justify-content: center;
+  
 }
 
 .optionContainer {
@@ -485,19 +492,22 @@
   justify-content: space-between;
   margin-bottom: 30px;
   gap: 24px;
+  
 }
 
 .option {
-  background-color: #c4c9ce;
+  background-color: #F8EDED;
   padding: 24px;
   color: #0e0e71;
   font-size: 18px;
+  font-family: 'Raleway', sans-serif;
   border-radius: 6px;
   height: 200px;
   width: 100%;
   font-weight: 600;
-  border: 1px solid #5f666e;
   cursor: pointer;
+  border: 1px solid hsl(18, 27%, 90%);
+  box-shadow: 0 4px 6px rgba(23, 59, 69, 0.1);
 }
 
 .active {
@@ -517,6 +527,7 @@
 
 .bottomDiv {
   font-size: 18px;
+  font-family:'Raleway';
   font-weight: 600;
 }
 
@@ -644,6 +655,7 @@
   margin: 0;
   opacity: 0.6;
   font-size: 0.9rem;
+  font-family:'Raleway';
   line-height: 1.5;
   max-width: 30ch;
   text-wrap: balance;
@@ -735,6 +747,7 @@
 
   .description {
     font-size: 0.8rem;
+    font-family:'Raleway';
   }
 
   .description a {
