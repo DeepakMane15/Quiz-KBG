@@ -2,8 +2,7 @@
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { UserDataModel } from "./common/UserModel";
-import Image from 'next/image';
-
+import Image from "next/image";
 
 type LandingPageProps = {
   submit: (name: string) => void;
@@ -64,10 +63,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
     let cards = JSON.parse(sessionStorage.getItem("scoreCard") || "[]");
     cards.sort((a: UserDataModel, b: UserDataModel) => b.score - a.score);
     setScoreCards(cards);
-
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleStart();
     }
   };
@@ -78,8 +76,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
         <>
           <div className={styles.description}>
             <div className={styles.title}>
-              <Image className={styles.logoKbg} src="/logo_kbg.jpeg" alt="kaun banega gurusikh" width={200} height={200} />
-              {/* <span>KAUN BANEGA GURUSIKH</span> */}
+              <Image
+                className={styles.logoKbg}
+                src="/logo_kbg.jpeg"
+                alt="kaun banega gurusikh"
+                width={350}
+                height={350}
+              />
             </div>
           </div>
           <div className={`${styles.form} ${flipClass}`}>
@@ -104,8 +107,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
               </button>
               {getScoreCardLength() && !viewScore ? (
                 <div>
-                  <button className={`btn-hover color-1 ${flipClass}`} onClick={handleViewScore}>
-                    View Score Card
+                  <button
+                    className={`view-score ${flipClass}`}
+                    onClick={handleViewScore}
+                  >
+                    Leaderboard
                   </button>
                 </div>
               ) : null}
@@ -136,7 +142,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
       )}
       {getScoreCardLength() && viewScore ? (
         <div>
-          <button className={`btn-hover color-1 ${flipClass}`} onClick={handleGoBack}>
+          <button
+            className={`btn-hover color-1 ${flipClass}`}
+            onClick={handleGoBack}
+          >
             Go Back
           </button>
         </div>
