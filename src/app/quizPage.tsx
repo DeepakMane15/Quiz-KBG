@@ -3,14 +3,17 @@ import exp from "constants";
 import styles from "./page.module.css";
 import { UserDataModel } from "./common/UserModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faAward } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faStar  } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { QuestionModel } from "./common/QuestionModel";
 import { AnswerStatus, CorrectMessage, InCorrectMessage, QuizStatus } from "./common/AppEnum";
 import Lottie from 'lottie-react';
 import correctAnimation from '../../public/well_done_animation1.json.json'; // Path to your animation 
 import inCorrectAnimation from '../../public/incorrect_animation.json.json'; // Path to your animation
+import celebrate from '../../public/celebrate.json'; // Path to your animation
+import celebrate2 from '../../public/celebrate2.json'; // Path to your animation
 import Swal from 'sweetalert2';
+import Image from 'next/image';
 
 type QuizPageProps = {
   submit: () => void;
@@ -20,7 +23,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   const [selectedOption, setSelectedOption] = useState<number>(-1);
   const [questions, setQuestions] = useState<QuestionModel[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(30);
+  const [timer, setTimer] = useState<number>(3000);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
   const [showIncAnimation, setShowIncAnimation] = useState<boolean>(false);
@@ -28,6 +31,8 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   const [footerMessage, setFooterMessage] = useState<string>("");
   const [showFooterMessage, setShowFooterMessage] = useState<boolean>(false);
   const [questionTransition, setQuestionTransition] = useState<'fadeIn' | 'fadeOut'>('fadeIn');
+  const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
+  const [randomImage, setRandomImage] = useState<string>("");
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -45,7 +50,14 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
       }
     };
 
+    const setUserImage = () => {
+      let index = Math.floor(Math.random() * 5) + 3;
+      let image = `/${index}.png`;
+      setRandomImage(image);
+    }
+
     loadQuestions();
+    setUserImage();
   }, []);
 
   useEffect(() => {
@@ -62,6 +74,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
         icon: "error",
         title: "Better luck next time!",
         text: "The quiz has ended.",
+        allowOutsideClick: false,
       })
         .then((result) => {
           if (result.value) {
@@ -99,26 +112,32 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   }
 
   const handleOptionSelection = (index: number) => {
+    if (isOptionSelected) return; // Prevent further selections
+
+    setIsOptionSelected(true);
     setSelectedOption(index);
     if (index === questions[currentQuestionIndex].answer) {
       setShowAnimation(true);
       setAnswerStatus(AnswerStatus.CORRECT);
       user.score += 1;
-      saveScoreCard();
+      // saveScoreCard();
       setTimeout(() => {
         setShowAnimation(false);
-        setSelectedOption(-1)
+        setSelectedOption(-1);
         if (currentQuestionIndex !== questions.length - 1) {
           setTimeout(() => {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
+            setIsOptionSelected(false); // Reset for the next question
             setTimer(30);
           }, 500);
           // setTimer(30);
         } else {
+          saveScoreCard();
           Swal.fire({
             icon: "success",
             title: "Winner!",
             text: "The quiz has ended.",
+            allowOutsideClick: false,
           })
             .then((result) => {
               if (result.value) {
@@ -143,6 +162,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           icon: "error",
           title: "Better luck next time!",
           text: "The quiz has ended.",
+          allowOutsideClick: false,
         })
           .then((result) => {
             if (result.value) {
@@ -168,10 +188,15 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
     }
   }
 
+  const calculateProgressWidth = () => {
+    return (currentQuestionIndex / questions.length) * 100;
+  }
+
   return (
     <>
       <div className={styles.toolbar}>
-        <div>
+        <div className={styles.name}>
+          <Image className={styles.userImage} src={randomImage} height={40} width={40} alt="user" />
           {user.name}
         </div>
         <div className={styles.timer}>
@@ -185,11 +210,17 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           />
           {`00:${timer < 10 ? `0${timer}` : timer}`}
         </div>
-        <div className={styles.medal}>
+        {/* <div className={styles.medal}>
           <div className={`${styles.timer} ${styles.medalContent}`}>
             <FontAwesomeIcon icon={faAward} className="fas fa-check"
               style={{ color: "#e71414", fontSize: 25 }} />
             <div>1st</div>
+          </div>
+        </div> */}
+        <div className={styles.progressBarContainer}>
+          <FontAwesomeIcon icon={faStar} className={styles.starIcon} />
+          <div className={styles.progressBar}>
+            <div className={styles.progress} style={{ width: `${calculateProgressWidth()}%` }}></div>
           </div>
         </div>
       </div>
@@ -217,10 +248,12 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           </>
         )}
       </div>
-      {(showAnimation || showIncAnimation) && (
-        <div className={styles.animationContainer}>
-          <Lottie animationData={showAnimation ? correctAnimation : inCorrectAnimation} loop={false} />
-        </div>
+      {(showIncAnimation) && (
+        <>
+          <div className={styles.animationContainer}>
+            <Lottie animationData={inCorrectAnimation} loop={false} />
+          </div>
+        </>
       )}
       {answerStatus !== AnswerStatus.NONE && showFooterMessage && (
         <div className={`${styles.bottomContainer} ${answerStatus === AnswerStatus.CORRECT ? styles.correct : styles.incorrect} ${styles.fadeInOut}`}>
@@ -228,6 +261,19 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
             {footerMessage}
           </div>
         </div>
+      )}
+      {showAnimation && (
+        <>
+          <div className={styles.animationContainer2}>
+            <Lottie animationData={showAnimation && celebrate} loop={true} />
+          </div>
+          <div className={styles.animationContainerLeft}>
+            <Lottie animationData={showAnimation && celebrate2} loop={true} />
+          </div>
+          <div className={styles.animationContainerRight}>
+            <Lottie animationData={showAnimation && celebrate2} loop={true} />
+          </div>
+        </>
       )}
     </>
   )
