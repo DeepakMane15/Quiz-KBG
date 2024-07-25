@@ -88,7 +88,8 @@ body {
   body {
     color: rgb(var(--foreground-rgb));
     /* background: linear-gradient(to bottom, transparent, #15CDEC) #05AFEE; */
-    background: linear-gradient(to left, #05AFEE, #15CDEC, #56D3E6);
+    /* background: linear-gradient(to right, #05AFEE , #15CDEC , #56D3E6,  #56D3E6 ,  #05AFEE ); */
+    background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
     height: 100vh;
 }
 
@@ -140,6 +141,22 @@ a {
 .btn-hover.color-1 {
   background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #8E37D7);
   box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+
+.view-score{
+  background: #FFFF;
+  box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+  border-radius: 10px;
+  color: #C48A25;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  height: 42px;
+  margin: 20px;
+  text-align: center;
+  width: 220px;
+  outline: none;
+  border:none;
 }
 
 table {
