@@ -1,9 +1,6 @@
 "use client";
-import exp from "constants";
 import styles from "./page.module.css";
 import { UserDataModel } from "./common/UserModel";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { QuestionModel } from "./common/QuestionModel";
 import {
@@ -13,8 +10,7 @@ import {
   QuizStatus,
 } from "./common/AppEnum";
 import Lottie from "lottie-react";
-import correctAnimation from "../../public/well_done_animation1.json.json"; // Path to your animation
-import inCorrectAnimation from "../../public/incorrect_animation.json.json"; // Path to your animation
+import inCorrectAnimation from "../../public/incorrect-animation.json"; // Path to your animation
 import celebrate from "../../public/celebrate.json"; // Path to your animation
 import celebrate2 from "../../public/celebrate2.json"; // Path to your animation
 import Swal from "sweetalert2";
@@ -172,17 +168,17 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
         setShowIncAnimation(false);
         user.quizStatus = QuizStatus.ENDED;
         saveScoreCard();
+
         Swal.fire({
           icon: "error",
-          title: "Better luck next time!",
-          text: "The quiz has ended.",
-          allowOutsideClick: false,
+          title: "Nice effort!",
+          text: "Your hard work is evident and appreciated.",
         }).then((result) => {
           if (result.value) {
             submit();
           }
         });
-      }, 2500);
+      }, 3000);
     }
     saveUserData();
   };
@@ -205,8 +201,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
   };
 
   const calculateProgressWidth = () => {
-    if (isWon)
-      return 100;
+    if (isWon) return 100;
     return (currentQuestionIndex / questions.length) * 100;
   };
 
@@ -217,8 +212,8 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
           <Image
             className={styles.userImage}
             src={randomImage}
-            height={40}
-            width={40}
+            height={50}
+            width={50}
             alt="user"
           />
           <h2 className={styles.timerTxt}>{user.name}</h2>
@@ -235,20 +230,21 @@ const QuizPage: React.FC<QuizPageProps> = ({ submit, user }) => {
             timer < 10 ? `0${timer}` : timer
           }`}</h1>
         </div>
-        {/* <div className={styles.medal}>
-          <div className={`${styles.timer} ${styles.medalContent}`}>
-            <FontAwesomeIcon icon={faAward} className="fas fa-check"
-              style={{ color: "#e71414", fontSize: 25 }} />
-            <div>1st</div>
-          </div>
-        </div> */}
-        <div className={styles.progressBarContainer}>
-          <div className={styles.progressBar}>
-            <div className={styles.progress} style={{ width: `${calculateProgressWidth()}%` }}>
-              <div className={styles.starIconContainer} style={{ left: `calc(${calculateProgressWidth()}% - ${!isWon ? (currentQuestionIndex === 0 ? '1.5px' : '18.5px') : '29.5px'})` }}>
-                <FontAwesomeIcon icon={faStar} className={styles.starIcon} />
-              </div>
-            </div>
+
+        <div className={styles.progressContainer}>
+          <div
+            className={styles.progressBar}
+            style={{
+              width: `calc(${calculateProgressWidth()}%)`,
+            }}
+          >
+            <Image
+              src="/star.png"
+              height={50}
+              width={50}
+              alt="star"
+              className={styles.progressIcon}
+            />
           </div>
         </div>
       </div>
