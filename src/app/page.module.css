@@ -73,6 +73,32 @@
   /* Optional: Add some padding */
 }
 
+.animationContainer2 {
+  position: fixed;
+  /* Position the animation relative to the viewport */
+  top: 50%;
+  /* Center vertically */
+  left: 50%;
+  /* Center horizontally */
+  transform: translate(-50%, -50%);
+  /* Adjust for the animation's dimensions */
+  z-index: 1000;
+  /* Ensure the animation appears above other content */
+  width: 300%;
+  /* Set a width for the animation */
+  height: 300%;
+  /* Set a height for the animation */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: rgba(0, 0, 0, 0.5); */
+  /* Optional: Add a semi-transparent background */
+  /* border-radius: 10px; */
+  /* Optional: Add rounded corners */
+  padding: 20px;
+  /* Optional: Add some padding */
+}
+
 
 .glowOnHover {
   font-size: 16px;
@@ -156,7 +182,14 @@
     background-position: 0 0;
   }
 } */
-
+.name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.userImage {
+  border-radius: 35px;
+}
 .actionContainer {
   display: flex;
   flex-direction: column;
@@ -179,11 +212,90 @@
   font-size: 18px;
 }
 
+@keyframes moveToCenterFromLeft {
+  0% {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes moveToCenterFromRight {
+  0% {
+    transform: translate(50%, 100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+.animationContainerLeft, .animationContainerRight {
+  position: fixed;
+  bottom: 0;
+  width: 50%;
+  height: 50%;
+  z-index: 1000;
+}
+
+.animationContainerLeft {
+  left: 0;
+  animation: moveToCenterFromLeft 2s forwards;
+}
+
+.animationContainerRight {
+  right: 0;
+  animation: moveToCenterFromRight 2s forwards;
+}
+
+
 .content {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
+/* Add these styles to your existing CSS file (page.module.css) */
+
+.progressBarContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.starIcon {
+  position: relative;
+  color: gold;
+  font-size: 25px;
+  left: 17px;
+}
+.progressBar {
+  flex-grow: 1;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  width: 200px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #76c7c0;
+  width: 0;
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}
+
 
 .input {
   border: none;
