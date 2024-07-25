@@ -58,14 +58,13 @@
   /* Adjust for the animation's dimensions */
   z-index: 1000;
   /* Ensure the animation appears above other content */
-  width: 300px;
+  width: 150%;
   /* Set a width for the animation */
-  height: 300px;
+  height: 150%;
   /* Set a height for the animation */
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
   /* Optional: Add a semi-transparent background */
   border-radius: 10px;
   /* Optional: Add rounded corners */
@@ -216,12 +215,59 @@
 
 /* Add these styles to your existing CSS file (page.module.css) */
 
+
+.progressContainer {
+  width: 15%;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+  border:3px solid #B7DAF4;
+  margin-top: 1.4%;
+}
+
+.progressBar {
+  width: 0%;
+  height: 22px;
+  background-color: #EE8F66;
+  border-radius: 20px;
+  position: relative;
+  right: 2%;
+  top:-30%;
+  transition: width 0.3s ease;
+}
+
+.progressIcon {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: -20px;
+  top:-13px;
+  background-color: #EE8F66;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progressIcon img {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* 
 .progressBarContainer {
   position: relative;
   display: flex;
   align-items: center;
   margin-top: 20px;
+  border: 3px solid red;
+  z-index: inherit;
 }
+
 
 .progressBar {
   flex-grow: 1;
@@ -231,7 +277,10 @@
   overflow: hidden;
   position: relative;
   width: 200px;
-}
+  border: 1px solid pink;
+  z-index: inherit;
+} 
+
 
 .starIconContainer {
   position: absolute;
@@ -239,12 +288,12 @@
   transform: translateY(-50%);
   left: 0;
   transition: left 0.5s ease-in-out;
-  /* Smooth transition */
+  z-index: inherit;
 }
 
 .starIcon {
   color: gold;
-  font-size: 25px;
+  font-size: 45px;
 }
 
 .progress {
@@ -253,7 +302,7 @@
   width: 0;
   border-radius: 10px;
   transition: width 0.5s ease-in-out;
-}
+}  */
 
 
 .content {
