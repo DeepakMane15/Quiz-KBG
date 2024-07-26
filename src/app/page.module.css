@@ -476,7 +476,7 @@
   z-index: -10;
   align-self: center;
   border-radius: 50%;
-  opacity: 0.2;
+  opacity: 0.1;
 }
 
 .questionContainer {
@@ -501,7 +501,7 @@
   text-align: left;
   align-items: center ;
   justify-content: center;
-  
+  margin-top:5%;
 }
 
 .optionContainer {
