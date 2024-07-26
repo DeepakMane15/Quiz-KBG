@@ -372,7 +372,7 @@
   background-repeat: no-repeat; /* Ensures the image does not repeat */
   background-position: center; /* Centers the image */
   width: 100%; /* Make sure the table takes full width */
-  height: 100%; /* Make sure the table takes full height */
+  /* height: 100%; Make sure the table takes full height */
 }
 
 .alignCenter {
