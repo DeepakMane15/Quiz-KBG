@@ -120,7 +120,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ submit }) => {
         </>
       ) : (
         <div className={`${styles.tableContainer} ${flipClass}`}>
-          <table>
+          <table className={styles.table}>
+            <Image
+              src="/logo_kbg.png"
+              height={320}
+              width={320}
+              alt="timer"
+              className={`${styles.logoImage} ${styles.alignCenter}`}
+            />
             <thead>
               <tr>
                 <th>Sr</th>

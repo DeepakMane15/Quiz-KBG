@@ -363,6 +363,24 @@
   overflow-x: hidden;
 }
 
+/* Add these styles to your existing CSS file (page.module.css) */
+
+.table {
+  background-color: transparent;
+  background-image: url("/public/logo_kbg.jpeg");
+  background-size: cover; /* Adjusts the image to cover the entire table */
+  background-repeat: no-repeat; /* Ensures the image does not repeat */
+  background-position: center; /* Centers the image */
+  width: 100%; /* Make sure the table takes full width */
+  height: 100%; /* Make sure the table takes full height */
+}
+
+.alignCenter {
+  top: 48% !important;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /* Custom scrollbar styles */
 .tableContainer::-webkit-scrollbar {
   width: 12px;

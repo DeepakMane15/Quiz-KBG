@@ -125,6 +125,13 @@ a {
   transition: all .4s ease-in-out;
 }
 
+tbody tr:hover {
+  background: #483a99 !important;
+}
+thead {
+  border: none !important;
+}
+
 .btn-hover:hover {
   background-position: 100% 0;
   moz-transition: all .4s ease-in-out;
